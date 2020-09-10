@@ -525,8 +525,8 @@ spring:
 ```bash
 litemall:
   wx:
-    app-id: wxa5b486c6b918ecfb
-    app-secret: e04004829d4c383b4db7769d88dfbca1
+    app-id: wx86cdc9e7ae85db6e
+    app-secret: d8f1a38139b242f7f12db7e6174bb1be
 ```
 
 这里的`app-id`和`app-secret`需要开发者在[微信公众平台](https://mp.weixin.qq.com/)注册获取。
@@ -1183,8 +1183,8 @@ http://www.example.com
     ```
     litemall:
         wx:
-            app-id: wxa5b486c6b918ecfb
-            app-secret: e04004829d4c383b4db7769d88dfbca1
+            app-id: wx86cdc9e7ae85db6e
+            app-secret: d8f1a38139b242f7f12db7e6174bb1be
             mch-id: 111111
             mch-key: xxxxxx
             notify-url: http://www.example.com/wx/order/pay-notify
