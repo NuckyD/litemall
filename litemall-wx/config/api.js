@@ -3,7 +3,7 @@
 // var WxApiRoot = 'http://localhost:8080/wx/';
 // 局域网测试使用
 //var WxApiRoot = 'http://192.168.1.3:8080/wx/';
-var WxApiRoot = 'http://localhost:8082/wx/';
+var WxApiRoot = 'http://81.71.68.124:8082/wx/';
 // 云平台部署时使用
 // var WxApiRoot = 'http://122.51.199.160:8080/wx/';
 // 云平台上线时使用
