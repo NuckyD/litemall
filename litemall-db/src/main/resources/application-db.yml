@@ -9,8 +9,8 @@ spring:
     druid:
       url:  jdbc:mysql://81.71.68.124:3306/litemall?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&verifyServerCertificate=false&useSSL=false
       driver-class-name:  com.mysql.cj.jdbc.Driver
-      username:  root
-      password:  root
+      username:  mall
+      password:  123456
       initial-size:  10
       max-active:  50
       min-idle:  10
