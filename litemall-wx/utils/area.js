@@ -3239,32 +3239,65 @@ var areaList =
   }
 }
 
-function getConfig(type) {
+var util = require('./util.js');
+var api = require('../config/api.js');
+
+ function getConfig2(type) {
   return (areaList && areaList[`${type}_list`]) || {};
+} 
+
+async function getConfig(id) {
+	let list = []
+    await util.request(api.RegionList,{
+			id: id
+		}, "GET")
+	.then(function(res) {
+		list = res.data.list
+	});
+	return list
 }
 
-function getList(type, code) {
-  let result = [];
-  if (type !== 'province' && !code) {
-    return result;
-  }
+/*  function getList(type, code) {
+	let result = [];
+	if (type !== 'province' && !code) {
+		return result;
+	}
 
-  const list = getConfig(type);
-  result = Object.keys(list).map(code => ({
-    code,
-    name: list[code]
-  }));
+	const list = getConfig2(type);
+	result = Object.keys(list).map(code => ({
+		code,
+		name: list[code]
+	}));
 
-  if (code) {
+	if (code) {
     // oversea code
     if (code[0] === '9' && type === 'city') {
-      code = '9';
+		code = '9';
     }
 
     result = result.filter(item => item.code.indexOf(code) === 0);
   }
 
+  console.log(result)
   return result;
+} */
+
+ async function getList(type, id) {
+	 let result = [];
+	if(type == 'province'){
+		id = 0
+	}
+	await getConfig(id).then((res) => {
+		result = res.map(item => ({
+			code: item.code + '',
+			name: item.name,
+			id: item.id
+		}));
+	}).catch((err) =>{
+		console.log(err)
+	});
+	console.log(result) 
+	return result;
 }
 
 // get index by code

@@ -8,8 +8,8 @@ Page({
   data: {
     address: {
       id: 0,
-      areaCode: 0,
-      address: '',
+      areaCode: 0,//省市区编码
+      address: '',//省市区
       name: '',
       tel: '',
       isDefault: 0,
@@ -18,7 +18,7 @@ Page({
       county: ''
     },
     addressId: 0,
-    openSelectRegion: false,
+    openSelectRegion: false,//控制选择省市区框
     selectRegionList: [{
         code: 0,
         name: '省份'
@@ -89,26 +89,30 @@ Page({
     })
 
   },
-  chooseRegion() {
+  async chooseRegion() {
     let that = this;
     this.setData({
-      openSelectRegion: !this.data.openSelectRegion
+      openSelectRegion: !this.data.openSelectRegion//弹出选择框
     });
 
     //设置区域选择数据
     let address = this.data.address;
     if (address.areaCode > 0) {
       let selectRegionList = this.data.selectRegionList;
+	  
+	  //截取前两位数+0000获取省编码
       selectRegionList[0].code = address.areaCode.slice(0, 2) + '0000';
       selectRegionList[0].name = address.province;
-
+	  
+	  //截取前四位数+00获取市编码
       selectRegionList[1].code = address.areaCode.slice(0, 4) + '00';
       selectRegionList[1].name = address.city;
 
       selectRegionList[2].code = address.areaCode;
       selectRegionList[2].name = address.county;
 
-      let regionList = area.getList('county', address.areaCode.slice(0, 4));
+	  //获取三级地区
+      let regionList = await area.getList('county', address.areaCode.slice(0, 4));
       regionList = regionList.map(item => {
         //标记已选择的
         if (address.areaCode === item.code) {
@@ -143,7 +147,7 @@ Page({
       this.setData({
         selectRegionList: selectRegionList,
         regionType: 1,
-        regionList: area.getList('province')
+        regionList:await area.getList('province')
       });
     }
 
@@ -163,7 +167,7 @@ Page({
   onReady: function() {
 
   },
-  selectRegionType(event) {
+  async selectRegionType(event) {
     let that = this;
     let regionTypeIndex = event.target.dataset.regionTypeIndex;
     let selectRegionList = that.data.selectRegionList;
@@ -175,20 +179,21 @@ Page({
 
     let selectRegionItem = selectRegionList[regionTypeIndex];
     let code = selectRegionItem.code;
+	let id = selectRegionItem.id;
     let regionList;
     if (regionTypeIndex === 0) {
       // 点击省级，取省级
-      regionList = area.getList('province');
+      regionList = await area.getList('province');
     }
     else if (regionTypeIndex === 1) {
       // 点击市级，取市级
-      regionList = area.getList('city', code.slice(0, 2)); 
+      regionList = await area.getList('city', id); 
     }
     else{
       // 点击县级，取县级
-      regionList = area.getList('county', code.slice(0, 4)); 
+      regionList = await area.getList('county', id); 
     }
-
+	
     regionList = regionList.map(item => {
       //标记已选择的
       if (that.data.selectRegionList[regionTypeIndex].code == item.code) {
@@ -198,15 +203,15 @@ Page({
       }
       return item;
     })
-
+	console.log(regionList)
     this.setData({
       regionList: regionList,
       regionType: regionTypeIndex + 1
     })
-
+	
     this.setRegionDoneStatus();
   },
-  selectRegion(event) {
+  async selectRegion(event) {
     let that = this;
     let regionIndex = event.target.dataset.regionIndex;
     let regionItem = this.data.regionList[regionIndex];
@@ -252,14 +257,15 @@ Page({
     })
     
     let code = regionItem.code;
+	let id = regionItem.id;
     let regionList = [];
     if (regionType === 1) {
       // 点击省级，取市级
-      regionList= area.getList('city', code.slice(0, 2))
+      regionList= await area.getList('city', id)
     }
     else {
       // 点击市级，取县级
-      regionList= area.getList('county', code.slice(0, 4))
+      regionList= await area.getList('county', id)
     }
 
     this.setData({
