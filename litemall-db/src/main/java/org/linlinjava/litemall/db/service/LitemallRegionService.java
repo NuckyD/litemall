@@ -52,4 +52,14 @@ public class LitemallRegionService {
         return regionMapper.selectByExample(example);
     }
 
+    public List<LitemallRegion> findListByCode(Integer code) {
+        LitemallRegionExample example = new LitemallRegionExample();
+        LitemallRegionExample.Criteria criteria = example.createCriteria();
+        criteria.andCodeEqualTo(code);
+        LitemallRegion litemallRegion = regionMapper.selectOneByExample(example);
+        example = new LitemallRegionExample();
+        criteria = example.createCriteria();
+        criteria.andPidEqualTo(litemallRegion.getPid());
+        return regionMapper.selectByExample(example);
+    }
 }

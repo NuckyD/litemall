@@ -38,8 +38,13 @@ public class WxRegionController extends GetRegionService {
 	 *
 	 */
 	@GetMapping("list")
-	public Object list(Integer id) {
-		List<LitemallRegion> regionList = regionService.queryByPid(id);
+	public Object list(Integer id, Integer code) {
+		List<LitemallRegion> regionList;
+		if(id == -1 && code != null){
+			regionList = regionService.findListByCode(code);
+		} else {
+			regionList = regionService.queryByPid(id);
+		}
 		return ResponseUtil.okList(regionList);
 	}
 

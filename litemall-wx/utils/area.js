@@ -3246,10 +3246,11 @@ var api = require('../config/api.js');
   return (areaList && areaList[`${type}_list`]) || {};
 } 
 
-async function getConfig(id) {
+async function getConfig(id, code) {
 	let list = []
     await util.request(api.RegionList,{
-			id: id
+			id: id,
+			code: code
 		}, "GET")
 	.then(function(res) {
 		list = res.data.list
@@ -3282,12 +3283,12 @@ async function getConfig(id) {
   return result;
 } */
 
- async function getList(type, id) {
+ async function getList(type, id, code) {
 	 let result = [];
 	if(type == 'province'){
 		id = 0
 	}
-	await getConfig(id).then((res) => {
+	await getConfig(id, code).then((res) => {
 		result = res.map(item => ({
 			code: item.code + '',
 			name: item.name,
@@ -3296,7 +3297,6 @@ async function getConfig(id) {
 	}).catch((err) =>{
 		console.log(err)
 	});
-	console.log(result) 
 	return result;
 }
 

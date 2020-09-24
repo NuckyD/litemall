@@ -112,7 +112,7 @@ Page({
       selectRegionList[2].name = address.county;
 
 	  //获取三级地区
-      let regionList = await area.getList('county', address.areaCode.slice(0, 4));
+      let regionList = await area.getList('county', -1, address.areaCode);
       regionList = regionList.map(item => {
         //标记已选择的
         if (address.areaCode === item.code) {

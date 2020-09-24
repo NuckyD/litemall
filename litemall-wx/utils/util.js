@@ -33,7 +33,6 @@ function request(url, data = {}, method = "GET") {
         'X-Litemall-Token': wx.getStorageSync('token')
       },
       success: function(res) {
-
         if (res.statusCode == 200) {
 
           if (res.data.errno == 501) {
@@ -58,7 +57,12 @@ function request(url, data = {}, method = "GET") {
       },
       fail: function(err) {
         reject(err)
-      }
+      },
+	  complete: function(res){
+		  console.log('requestUrl:' + url)
+		  console.log(data)
+		  console.log(res)
+	  }
     })
   });
 }
